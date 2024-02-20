@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  if currentUser
+    h1 Welcome #{currentUser.last_name} #{currentUser.first_name}, your current status is #{currentUser.membership_status}.
+    if messages
+      ul
+        each message in messages
+          li
+            h2 #{message.title} 
+            if currentUser.membership_status === "Member" || currentUser.membership_status === "Admin"
+              p #{message.created_by.last_name} on #{message.time_stamp_formatted}
+            p !{message.text}
+            if currentUser.membership_status === "Admin"
+              a(href='/message/' + message._id + '/delete') Delete message
+  else 
+    h1 Please log-in or sign-up to see members' messages.
+    a(href='/log-in') Log-in
+    form(method='POST' action='/sign-up')
+      div.form-group
+        label(for='first_name') First name:
+        input#first_name.form-control(type='text', placeholder='First name' name='first_name' required value=(undefined===first_name ? '' : first_name))
+      div.form-group
+        label(for='last_name') Last name:
+        input#last_name.form-control(type='text', placeholder='Last name' name='last_name' required value=(undefined===last_name ? '' : last_name))
+      div.form-group
+        label(for='user_name') User name:
+        input#user_name.form-control(type='text', placeholder='User name' name='user_name' required value=(undefined===user_name ? '' : user_name))
+      div.form-group
+        label(for='email') Email address:
+        input#email.form-control(type='email', placeholder='Email address' name='email' required value=(undefined===email ? '' : email))
+      div.form-group
+        label(for='password') Password:
+        input#password.form-control(type='password' placeholder='Password' name='password' required)
+      div.form-group
+        label(for='password_confirm') Please confirm password:
+        input#password_confirm.form-control(type='password' placeholder='Password' name='password_confirm' required)
+      button.btn.btn-primary(type='submit') Submit
+    if errors
+      ul
+      for error in errors
+        li!= error.msg
+
+    

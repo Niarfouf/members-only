@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 Create a new message
+
+  form(method='POST')
+   
+    div.form-group
+      label(for='title') Title:
+      input#title.form-control(type='text' placeholder='Title' name='title' required value=(undefined===message ? '' : message.title) )
+    div.form-group
+      label(for='text') Text:
+      textarea#text.form-control(name='text' value=(undefined===message ? '' : message.text))
+    button.btn.btn-primary(type='submit') Save
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

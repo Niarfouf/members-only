@@ -1,0 +1,15 @@
+extends layout
+
+block content
+
+  h1 Upgrade your status by entering the secret password
+  form(method='POST')
+    div.form-group
+        label(for='password') Please enter the secret password
+        input#password.form-control(type='password' placeholder='Password' name='password' required)
+    button.btn.btn-primary(type='submit') Upgrade status
+  
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
